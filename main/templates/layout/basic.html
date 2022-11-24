@@ -28,6 +28,7 @@
                     Регистрация
                 </a>
             </li>
+            {% if user.is_authenticated %}
             <li class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle"
                    data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -52,11 +53,13 @@
                     </a>
                 </div>
             </li>
+            {% else %}
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{% url 'main:login' %}" class="nav-link">
                     Вход
                 </a>
             </li>
+            {% endif %}
         </ul>
     </div>
     <div class="row">
