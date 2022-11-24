@@ -64,6 +64,9 @@
             <a href="{% url 'main:index' %}" class="nav-link root">
                 Главная
             </a>
+            <a href="{% url 'main:other' page='about' %}" class="nav-link root">
+                О сайте
+            </a>
             <span class="nav-link root font-weight-bold">
                 Недвижимость
             </span>
@@ -85,6 +88,7 @@
             <a href="#" class="nav-link">
                 Грузовой
             </a>
+
         </nav>
         <section class="col border py-2">
             {% bootstrap_messages %}
