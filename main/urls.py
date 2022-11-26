@@ -1,6 +1,7 @@
 from django.urls import path
 
-from .views import index, other_page, BbLoginView, profile, BbLogoutView, ChangeUserInfoView, BbPasswordChangeView
+from .views import index, other_page, BbLoginView, profile, BbLogoutView, ChangeUserInfoView, \
+    BbPasswordChangeView, RegisterUserView, RegisterDoneView, user_activate
 
 app_name = 'main'
 
@@ -9,6 +10,9 @@ urlpatterns = [
     # Указан именно данный путь (accounts/profile), потому что по умолчанию django выполняет перенаправление
     # именно на этот адрес, после успешного входа
     path('accounts/profile/', profile, name='profile'),
+    path('accounts/register/activate/<str:sign>/', user_activate, name='register_activate'),
+    path('accounts/register/done/', RegisterDoneView.as_view(), name='register_done'),
+    path('accounts/register', RegisterUserView.as_view(), name='register'),
     # Указан именно данный путь (accounts/login/), потому что по умолчанию django выполняет перенаправление
     # именно на этот адрес, когда пользователь хочет получить доступ к закрытой странице
     path('accounts/login/', BbLoginView.as_view(), name='login'),

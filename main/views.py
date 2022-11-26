@@ -2,15 +2,18 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404
 from django.template import TemplateDoesNotExist
 from django.template.loader import get_template
+from django.views.generic.base import TemplateView
+from django.core.signing import BadSignature
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import UpdateView, CreateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 
 from .models import AdvUser
-from .forms import ChangeUserInfoForm
+from .utilities import signer
+from .forms import ChangeUserInfoForm, RegisterUserForm
 
 
 def index(request):
@@ -68,7 +71,37 @@ class ChangeUserInfoView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
 
 
 class BbPasswordChangeView(SuccessMessageMixin, LoginRequiredMixin, PasswordChangeView):
+    """Сброс пароля"""
     template_name = 'main/password_change.html'
     success_url = reverse_lazy('main:profile')
     success_message = 'Пароль пользователя изменен'
 
+
+class RegisterUserView(CreateView):
+    """Регистрация пользователя"""
+    model = AdvUser
+    template_name = 'main/register_user.html'
+    form_class = RegisterUserForm
+    success_url = reverse_lazy('main:register_done')
+
+
+class RegisterDoneView(TemplateView):
+    """Вывод ответа об успешной регистрации"""
+    template_name = 'main/register_done.html'
+
+
+def user_activate(request, sign):
+    try:
+        # Извлекаем имя пользователя из полученного подписанного идентификатора
+        username = signer.unsign(sign)
+    except BadSignature:
+        return render(request, 'main/bad_signature.html')
+    user = get_object_or_404(AdvUser, username=username)
+    if user.is_activated:
+        template = 'main/user_is_activated.html'
+    else:
+        template = 'main/activation_done.html'
+        user.is_active = True
+        user.is_activated = True
+        user.save()
+    return render(request, template)
