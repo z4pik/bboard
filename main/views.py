@@ -119,7 +119,6 @@ class DeleteUserView(LoginRequiredMixin, DeleteView):
     # Сохраняем ключ текущего пользователя
     def setup(self, request, *args, **kwargs):
         self.user_id = request.user.pk
-        print(request)
         return super().setup(request, *args, **kwargs)
 
     # Перед удалением пользователя необходимо сделать выход
