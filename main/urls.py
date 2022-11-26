@@ -1,11 +1,12 @@
 from django.urls import path
 
 from .views import index, other_page, BbLoginView, profile, BbLogoutView, ChangeUserInfoView, \
-    BbPasswordChangeView, RegisterUserView, RegisterDoneView, user_activate
+    BbPasswordChangeView, RegisterUserView, RegisterDoneView, user_activate, DeleteUserView
 
 app_name = 'main'
 
 urlpatterns = [
+    path('accounts/profile/delete/', DeleteUserView.as_view(), name='profile_delete'),
     path('accounts/profile/change/', ChangeUserInfoView.as_view(), name='profile_change'),
     # Указан именно данный путь (accounts/profile), потому что по умолчанию django выполняет перенаправление
     # именно на этот адрес, после успешного входа
