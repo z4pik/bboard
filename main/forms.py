@@ -3,7 +3,7 @@ from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
 
 from .apps import user_registered
-from .models import AdvUser
+from .models import AdvUser, SubRubric, SuperRubric
 
 
 class ChangeUserInfoForm(forms.ModelForm):
@@ -66,3 +66,14 @@ class RegisterUserForm(forms.ModelForm):
         fields = ('username', 'email', 'password1', 'password2',
                   'first_name', 'last_name', 'is_messages')
 
+
+class SubRubricForm(forms.ModelForm):
+    # У подрубрики сделаем поле рубрики(super_rubric) - обязательным
+    super_rubric = forms.ModelChoiceField(
+        queryset=SuperRubric.objects.all(), empty_label=None,
+        label='Надрубрика', required=True
+    )
+
+    class Meta:
+        model = SubRubric
+        fields = '__all__'

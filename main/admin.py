@@ -1,7 +1,8 @@
 from django.contrib import admin
 import datetime
 
-from .models import AdvUser
+from .forms import SubRubricForm
+from .models import AdvUser, SuperRubric, SubRubric
 from .utilities import send_activation_notification
 
 
@@ -57,3 +58,26 @@ class AdvUserAdmin(admin.ModelAdmin):
 
 
 admin.site.register(AdvUser, AdvUserAdmin)
+
+
+class SubRubricInline(admin.TabularInline):
+    """Позволит добавлять несколько подрубрик внутри модели рубрики"""
+    model = SubRubric
+
+
+class SubRubricAdmin(admin.ModelAdmin):
+    """Присваиваем кастомную форму для подрубрик"""
+    form = SubRubricForm
+
+
+admin.site.register(SubRubric, SubRubricAdmin)
+
+
+class SuperRubricAdmin(admin.ModelAdmin):
+    # Исключаем поле, чтобы пользователь не мог в рубрике создать надрубрику
+    exclude = ('super_rubric',)
+    # Даем возможность пользователю сразу заполнить Рубрику, подрубриками
+    inlines = (SubRubricInline,)
+
+
+admin.site.register(SuperRubric, SuperRubricAdmin)
