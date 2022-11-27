@@ -134,3 +134,5 @@ class DeleteUserView(LoginRequiredMixin, DeleteView):
         return get_object_or_404(queryset, pk=self.user_id)
 
 
+def by_rubric(request, pk):
+    pass
