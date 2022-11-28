@@ -1,0 +1,40 @@
+{% extends 'layout/basic.html' %}
+
+{% load bootstrap4 %}
+
+{% block title %}Удаление объявления{% endblock %}
+
+{% block content %}
+<h2>Удаление объявления</h2>
+<!--Основные сведения об объявление-->
+<div class="container-fluid mt-3">
+  <div class="row">
+    {% if bb.image %}
+    <div class="col-md-auto">
+      <img src="{{ bb.image.url }}" class="main-image" width="400">
+    </div>
+    {% endif %}
+  </div>
+  <div class="col">
+    <h2>{{ bb.title }}</h2>
+    <p>{{ bb.content }}</p>
+    <p class="font-weight-bold">{{ bb.price }} руб.</p>
+    <p>{{ bb.contacts }}</p>
+    <p class="text-right font-italic">Добавлено: {{ bb.created_at }}</p>
+  </div>
+</div>
+{% if ais %}
+<!--Выводим дополнительные картинки-->
+<div class="justify-content-between d-flex flex-wrap mt-5">
+  {% for ai in ais %}
+  <div>
+    <img src="{{ ai.image.url }}" alt="" class="additional-image">
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+<form method="post">
+    {% csrf_token %}
+    {% buttons submit='Удалить' %}{% endbuttons %}
+</form>
+{% endblock %}
