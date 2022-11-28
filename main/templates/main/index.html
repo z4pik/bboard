@@ -11,19 +11,15 @@
 <ul class="list-unstyled">
     {% for bb in bbs %}
     <li class="media my-5 p-3 border">
-        <!--Создаем гиперссылку на страницу и сохраняем адрес в переменную url -->
-        {% url 'main:detail' rubric_pk=rubric.pk pk=bb.pk as url %}
-        <!--Така как картинка необязательна и пользователь не вставил её вставляем дефолтную-->
-        <a href="{{ url }}{{ all }}">
+        <!--Так как картинка необязательна и пользователь не вставил её вставляем дефолтную-->
             {% if bb.image %}
             <img src="{% thumbnail bb.image 'default' %}" class="mr-3" width="170">
             {% else %}
             <img src="{% static 'main/empty.jpg' %}" class="mr-3" width="170">
             {% endif %}
-        </a>
         <div class="media-body">
             <h3>
-                <a href="{{ url }}{{ all }}">
+                <a href="{% url 'main:detail' rubric_pk=bb.rubric.pk  pk=bb.pk %}">
                     {{ bb.title }}
                 </a>
             </h3>
