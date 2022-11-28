@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     # Подключенные приложения
     'bootstrap4',
     'corsheaders',
+    'django_cleanup',  # удаляет выгруженные файлы после удаления моделей, где они хранятся
+    'easy_thumbnails',  # Создает миниатюры
 
     # Свои приложения
     'main.apps.MainConfig',
@@ -125,6 +127,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIAJJRL = '/media/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
@@ -134,3 +139,14 @@ AUTH_USER_MODEL = 'main.AdvUser'
 
 EMAIL_PORT = 1025
 
+
+THUMBNAIL_ALIASES = {
+    '': {
+        'default': {
+            'size': (96, 96), # Ограничение масштаба картинки
+            'crop': 'scale',
+        },
+    },
+}
+
+THUMBNAIL_BASEDIR = 'thumbnails'
