@@ -4,8 +4,23 @@
 {% load static %}
 {% load bootstrap4 %}
 
+{% block title %}{{ rubric }}{% endblock %}
+
 {% block content %}
-<h2 class="mb2">Последние 10 объявлений</h2>
+<h2 class="mb2">{{ rubric }}</h2>
+<!--Выводи форму поиска прижав её к правой части страницы-->
+<div class="container-fluid mb-2">
+    <div class="row">
+        <div class="col">
+           &nbsp;
+        </div>
+        <!-- form-inline - выводит все элементы управления формы в одну строку-->
+        <form class="col-md-auto form-inline">
+            {% bootstrap_form form show_label=False %}
+            {% bootstrap_button content='Искать' button_type='submit' %}
+        </form>
+    </div>
+</div>
 {% if bbs %}
 <!-- Создаем перечень -->
 <ul class="list-unstyled">
@@ -34,6 +49,8 @@
     </li>
     {% endfor %}
 </ul>
+<!--Пагинатор-->
+{% bootstrap_pagination page url=keyword %}
 
 {% endif %}
 {% endblock %}

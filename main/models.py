@@ -90,7 +90,7 @@ class Bb(models.Model):
     image = models.ImageField(blank=True, upload_to=get_timestamp_path,
                               verbose_name='Изображение')
     author = models.ForeignKey(AdvUser, on_delete=models.CASCADE,
-                               verbose_name='Изображения')
+                               verbose_name='Автор')
     is_active = models.BooleanField(default=True, db_index=True,
                                     verbose_name='Выводить в списке?')
     created_at = models.DateTimeField(auto_now_add=True, db_index=True,
