@@ -92,8 +92,12 @@ WSGI_APPLICATION = 'bboard.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'bboard.data',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'bboard',
+        'USER': 'bboard_user',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
