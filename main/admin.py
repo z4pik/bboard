@@ -2,7 +2,7 @@ from django.contrib import admin
 import datetime
 
 from .forms import SubRubricForm
-from .models import AdvUser, SuperRubric, SubRubric, Bb, AdditionalImage
+from .models import AdvUser, SuperRubric, SubRubric, Bb, AdditionalImage, Comment
 from .utilities import send_activation_notification
 
 
@@ -95,3 +95,12 @@ class BbAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Bb, BbAdmin)
+
+
+class CommentAdmin(admin.ModelAdmin):
+    """Отображение полей в админке"""
+    list_display = ('author', 'bb', 'content', 'is_active')
+    search_fields = ('author', 'content', 'bb')
+
+
+admin.site.register(Comment, CommentAdmin)

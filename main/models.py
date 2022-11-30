@@ -1,7 +1,8 @@
 from django.db import models
+from django.db.models.signals import post_save
 from django.contrib.auth.models import AbstractUser
 
-from .utilities import get_timestamp_path
+from .utilities import get_timestamp_path, send_new_comment_notification
 
 
 class AdvUser(AbstractUser):
@@ -96,6 +97,9 @@ class Bb(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, db_index=True,
                                       verbose_name='Опубликовано')
 
+    def __str__(self):
+        return self.title
+
     def delete(self, *args, **kwargs):
         """Перед удалением текущей записи мы перебираем т удаляем все связанные дополнительные иллюстрации"""
         for ai in self.additionalimage_set.all():
@@ -134,3 +138,13 @@ class Comment(models.Model):
         verbose_name_plural = 'Комментарии'
         verbose_name = 'Комментарий'
         ordering = ['created_at']
+
+
+def post_save_dispatcher(sender, **kwargs):
+    """Отправка оповещений пользователю о новом комметарии"""
+    author = kwargs['instance'].bb.author
+    if kwargs['created'] and author.send_messages:
+        send_new_comment_notification(kwargs['instance'])
+
+
+post_save.connect(post_save_dispatcher, sender=Comment)
