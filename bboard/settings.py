@@ -40,17 +40,22 @@ INSTALLED_APPS = [
     # Подключенные приложения
     'bootstrap4',
     'corsheaders',
+    'rest_framework',
+
     'django_cleanup',  # удаляет выгруженные файлы после удаления моделей, где они хранятся
     'easy_thumbnails',  # Создает миниатюры
     'captcha',
 
     # Свои приложения
     'main.apps.MainConfig',
+    'api.apps.ApiConfig',
+
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -129,7 +134,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIAJJRL = '/media/'
+MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -144,10 +149,15 @@ EMAIL_PORT = 1025
 THUMBNAIL_ALIASES = {
     '': {
         'default': {
-            'size': (96, 96), # Ограничение масштаба картинки
+            'size': (96, 96),  # Ограничение масштаба картинки
             'crop': 'scale',
         },
     },
 }
 
 THUMBNAIL_BASEDIR = 'thumbnails'
+
+
+# Настройки, разрешающие доступ к веб-службе с любого домена
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_URLS_REGEX = r'A/api/.*$'
