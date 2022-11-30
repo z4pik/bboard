@@ -120,6 +120,7 @@ class AdditionalImage(models.Model):
 
 
 class Comment(models.Model):
+    """Модель комментария"""
     bb = models.ForeignKey(Bb, on_delete=models.CASCADE,
                            verbose_name='Объявления')
     author = models.CharField(max_length=30, verbose_name='Автор')
@@ -128,3 +129,8 @@ class Comment(models.Model):
                                     verbose_name='Выводить на экран?')
     created_at = models.DateTimeField(auto_now_add=True, db_index=True,
                                       verbose_name='Опубликован')
+
+    class Meta:
+        verbose_name_plural = 'Комментарии'
+        verbose_name = 'Комментарий'
+        ordering = ['created_at']
