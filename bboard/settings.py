@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_cleanup',  # удаляет выгруженные файлы после удаления моделей, где они хранятся
     'easy_thumbnails',  # Создает миниатюры
+    'captcha',
 
     # Свои приложения
     'main.apps.MainConfig',
