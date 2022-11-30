@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'corsheaders',
     'rest_framework',
+    'drf_yasg',
 
     'django_cleanup',  # удаляет выгруженные файлы после удаления моделей, где они хранятся
     'easy_thumbnails',  # Создает миниатюры
