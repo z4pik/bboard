@@ -143,7 +143,7 @@ class Comment(models.Model):
 def post_save_dispatcher(sender, **kwargs):
     """Отправка оповещений пользователю о новом комметарии"""
     author = kwargs['instance'].bb.author
-    if kwargs['created'] and author.send_messages:
+    if kwargs['created'] and author.is_messages:
         send_new_comment_notification(kwargs['instance'])
 
 
